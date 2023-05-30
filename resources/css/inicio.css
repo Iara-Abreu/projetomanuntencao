@@ -1,0 +1,98 @@
+/* Estilos básicos */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+header {
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.hero-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.hero-section h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.hero-section p {
+    font-size: 18px;
+    color: #666;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.features {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.feature-item {
+    display: inline-block;
+    vertical-align: top;
+    width: 33.33%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.feature-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.feature-item h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 14px;
+    color: #666;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
