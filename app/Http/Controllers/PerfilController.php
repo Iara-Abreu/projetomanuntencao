@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Domains\Usuario;
+use App\Domains\Perfil;
 
-class UsuarioController extends Controller
+class PerfilController extends Controller
 {
 
     public function index()

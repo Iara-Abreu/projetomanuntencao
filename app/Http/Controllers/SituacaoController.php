@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Domains\Usuario;
+use App\Domains\Situacao;
 
-class UsuarioController extends Controller
+class SituacaoController extends Controller
 {
 
     public function index()
