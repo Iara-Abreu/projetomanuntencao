@@ -28,6 +28,17 @@ Route::post('demanda/store' , [\App\Http\Controllers\DemandaController::class, '
 Route::patch('demanda/{id_demanda}/update' , [\App\Http\Controllers\DemandaController::class, 'update'])
     ->name('demanda.update');
 
+Route::get('tipo_demanda' , [\App\Http\Controllers\TipoDemandaController::class, 'index'])
+    ->name('tipo_demanda.index');
+Route::get('tipo_demanda/{id_tipo_demanda}/edit' , [\App\Http\Controllers\TipoDemandaController::class, 'edit'])
+    ->name('tipo_demanda.edit');
+Route::get('tipo_demanda/create' , [\App\Http\Controllers\TipoDemandaController::class, 'create'])
+    ->name('tipo_demanda.create');
+Route::post('tipo_demanda/store' , [\App\Http\Controllers\TipoDemandaController::class, 'store'])
+    ->name('tipo_demanda.store');
+Route::patch('tipo_demanda/{id_tipo_demanda}/update' , [\App\Http\Controllers\TipoDemandaController::class, 'update'])
+    ->name('tipo_demanda.update');
+
 Route::get('bairro' , [\App\Http\Controllers\BairroController::class, 'index'])
     ->name('bairro.index');
 Route::get('bairro/{id_bairro}/edit' , [\App\Http\Controllers\BairroController::class, 'edit'])
