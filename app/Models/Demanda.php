@@ -7,7 +7,7 @@ use Yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
 
 class Demanda extends Eloquent
 {
-    protected $table = 'demanda';
+    protected $table = 'demandas';
 
     protected $primaryKey = 'id_demanda';
 

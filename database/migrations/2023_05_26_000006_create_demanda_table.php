@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demanda', function (Blueprint $table) {
+        Schema::create('demandas', function (Blueprint $table) {
             $table->bigIncrements( 'id_demanda');
             $table->string('ds_demanda');
             $table->text('url_imagem');
@@ -23,13 +23,13 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_tipo_demanda')->references('id_tipo_demanda')
-                ->on('tipo_demanda');
+                ->on('tipo_demandas');
             $table->foreign('id_usuario')->references('id_usuario')
-                ->on('usuario');
+                ->on('users');
             $table->foreign('id_bairro')->references('id_bairro')
-                ->on('bairro');
+                ->on('bairros');
             $table->foreign('id_situacao')->references('id_situacao')
-                ->on('situacao');
+                ->on('situacoes');
         });
     }
 
