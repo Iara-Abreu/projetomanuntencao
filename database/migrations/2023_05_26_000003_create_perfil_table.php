@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfil', function (Blueprint $table) {
+        Schema::create('perfis', function (Blueprint $table) {
             $table->bigIncrements('id_perfil');
             $table->string('ds_perfil');
+            $table->timestamps();
         });
     }
 

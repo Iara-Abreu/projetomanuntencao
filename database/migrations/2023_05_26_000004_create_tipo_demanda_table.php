@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipo_demanda', function (Blueprint $table) {
+        Schema::create('tipo_demandas', function (Blueprint $table) {
             $table->bigIncrements('id_tipo_demanda');
             $table->string('ds_tipo_demanda');
+            $table->timestamps();
         });
     }
 
