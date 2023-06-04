@@ -60,3 +60,21 @@ Route::post('situacao/store' , [\App\Http\Controllers\SituacaoController::class,
     ->name('situacao.store');
 Route::patch('situacao/{id_situacao}/update' , [\App\Http\Controllers\SituacaoController::class, 'update'])
     ->name('situacao.update');
+
+    Route::get('user/create' , [\App\Http\Controllers\AuthController::class, 'create'])
+    ->name('user.create');
+Route::post('user/store' , [\App\Http\Controllers\AuthController::class, 'store'])
+    ->name('user.store');
+Route::get('user/login' , [\App\Http\Controllers\AuthController::class, 'login'])
+    ->name('user.login');
+Route::post('user/autenticar' , [\App\Http\Controllers\AuthController::class, 'autenticar'])
+    ->name('user.autenticar');
+    Route::get('user/logout' , [\App\Http\Controllers\AuthController::class, 'logout'])
+    ->name('user.logout');
+    Route::get('trocar-senha/{id}', [\App\Http\Controllers\AuthController::class, 'trocarSenhaForm'])->name('user.trocar.senha.get');
+
+    Route::post('/trocar-senha/{id}', [\App\Http\Controllers\AuthController::class,'trocarSenha'])->name('user.trocar.senha.post');
+
+    Route::get('enviar-email', [\App\Http\Controllers\AuthController::class,'enviarEmailForm'])->name('user.enviar_email');
+
+    Route::post('enviar-email', [\App\Http\Controllers\AuthController::class, 'enviarEmail'])->name('user.store_email');
