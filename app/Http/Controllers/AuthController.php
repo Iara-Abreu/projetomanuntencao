@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -31,6 +30,7 @@ class AuthController extends Controller
             $user->name = $req->input('name');
             $user->email = $req->input('email');
             $user->password = Hash::make($req->input('password'));
+            $user->id_perfil = 2;
             if ($user->save()) {
                 return redirect()->route('user.login')
                     ->with('success', 'Usuário registrado com sucesso!');
@@ -47,7 +47,6 @@ class AuthController extends Controller
 
         return view('user.login', $v);
     }
-
 
     public function autenticar(Request $request)
     {
@@ -108,7 +107,6 @@ class AuthController extends Controller
             }
         } catch (\Exception $ex) {
             redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $ex->getMessage());
-            dump($ex->getMessage());
         }
     }
 }

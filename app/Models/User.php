@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     protected $table = 'users';
 
-    protected $primaryKey = 'id_usuario';
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
 
-//    public function
-//    {
-//
-//    }
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 }
