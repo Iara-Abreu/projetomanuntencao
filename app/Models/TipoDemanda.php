@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Domains\Manutencao;
+namespace App\MOdels;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class TipoDemanda extends Eloquent
+class TipoDemanda extends Model
 {
-    protected $table = 'tipo_demanda';
+    protected $table = 'tipo_demandas';
 
     protected $primaryKey = 'id_tipo_demanda';
 

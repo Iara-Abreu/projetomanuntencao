@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Domains\Manutencao;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class Bairro extends Eloquent
+class Situacao extends Model
 {
-    protected $table = 'situacao';
+    protected $table = 'situacoes';
 
     protected $primaryKey = 'id_situacao';
 

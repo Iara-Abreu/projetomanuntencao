@@ -1,0 +1,32 @@
+name: PHP CodeSniffer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  phpcs:
+    name: PHP CodeSniffer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPCS
+        run: composer run lint
+
+      - name: Review changes
+        uses: reviewdog/action-eslint-phpcs@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

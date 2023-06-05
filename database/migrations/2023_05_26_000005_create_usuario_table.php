@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuario', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id_usuario');
             $table->string('nome');
             $table->string('email')->unique();
             $table->string('senha');
             $table->unsignedBigInteger('id_perfil');
             $table->rememberToken();
+            $table->timestamps();
 
 
             $table->foreign('id_perfil')->references('id_perfil')
-                ->on('perfil');
+                ->on('perfis');
         });
     }
 

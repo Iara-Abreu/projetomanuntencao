@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Domains\Manutencao;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class Perfil extends Eloquent
+class Perfil extends Model
 {
-    protected $table = 'perfil';
+    protected $table = 'perfis';
 
     protected $primaryKey = 'id_perfil';
 
