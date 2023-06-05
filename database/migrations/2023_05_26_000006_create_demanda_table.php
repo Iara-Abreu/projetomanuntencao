@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->foreign('id_tipo_demanda')->references('id_tipo_demanda')
                 ->on('tipo_demandas');
-            $table->foreign('id_usuario')->references('id_usuario')
+            $table->foreign('id')->references('id')
                 ->on('users');
             $table->foreign('id_bairro')->references('id_bairro')
                 ->on('bairros');

@@ -18,8 +18,9 @@
                 <br>
             </div>
             <div class="box-body">
+                <div class="container container">
                 <div class="row">
-                    <div class="col col-md-5">
+                    <div class="col col-md-6">
                         <img src={{asset('img/mapalocal.png')}}
                                      width="700" height="650"
                              style="border: 5px solid #ccc; border-radius: 15px;">
@@ -45,6 +46,7 @@
         {{--                    <a href="#" class="btn btn-primary">Comece agora</a>--}}
         {{--                </div>--}}
     </div>
+</div>
 @endsection
 
 
