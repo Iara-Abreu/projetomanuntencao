@@ -16,9 +16,22 @@
     <!-- Seus outros arquivos JS -->
 </head>
 <body>
+<div class="container col-md-6">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+</div>
 @yield('main')
 
-<!-- Seus scripts JS aqui -->
+<li><a class="dropdown-item" href="{{route('user.logout')}}">Sair</a></li>
 </body>
 </html>
 
