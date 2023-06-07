@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col col-md-6">
                         <img src={{asset('img/mapalocal.png')}}
-                                     width="700" height="650" style="border: 5px solid #ccc; border-radius: 15px;">
+                         width="700" height="650" style="border: 5px solid #ccc; border-radius: 15px;">
                     </div>
                         <div class="col-md-6 text-right">
                             <h2>Recursos Principais:</h2>
