@@ -15,9 +15,9 @@
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="#">Sobre</a>
-                    <a class="nav-link" href="#">Sou cidadão</a>
-                    <a class="nav-link" href="#">Sou Órgão</a>
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="{{ route('user.create', ['id_perfil' => 'Cidadão']) }}">Sou cidadão</a>
+                    <a class="nav-link" href="{{ route('user.create', ['id_perfil' => 'Orgão']) }}">Sou Órgão</a>
+                    <a class="nav-link" href="{{route('user.login')}}">Login</a>
                 </div>
             </div>
         </div>

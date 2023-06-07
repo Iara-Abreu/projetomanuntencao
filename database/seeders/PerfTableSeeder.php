@@ -9,7 +9,7 @@ class PerfTableSeeder extends Seeder
 {
     public function run()
     {
-        $perfis = ['admin', 'cidadao', 'servidor'];
+        $perfis = ['Admin', 'Cidadão', 'Orgão'];
 
         foreach ($perfis as $perfil) {
             Perfil::create([

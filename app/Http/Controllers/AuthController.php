@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Perfil;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,14 +13,16 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function __construct(
-        private User $user
+        private User $user,
+        private Perfil $perfil
     ) {
     }
 
     public function create()
     {
-
+        $id_perfil = request('id_perfil');
         $v['title'] = 'Criar Usuário';
+        $v['perfis'] = $this->perfil->selectListId($id_perfil);
         return view('user.create', $v);
     }
 
@@ -30,7 +33,7 @@ class AuthController extends Controller
             $user->name = $req->input('name');
             $user->email = $req->input('email');
             $user->password = Hash::make($req->input('password'));
-            $user->id_perfil = 2;
+            $user->id_perfil = $req->input('id_perfil');
             if ($user->save()) {
                 return redirect()->route('user.login')
                     ->with('success', 'Usuário registrado com sucesso!');
