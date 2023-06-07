@@ -16,7 +16,7 @@ class Perfil extends Model
         $perfis = $this->orderBy('ds_perfil')
             ->get();
 
-        $arr = [];gc
+        $arr = [];
         foreach ($perfis as $perf) {
             $arr[$perf->id_perfil] = $perf->ds_perfil;
         }
