@@ -33,7 +33,6 @@
 </div>
 @yield('main')
 
-<li><a class="dropdown-item" href="{{route('user.logout')}}">Sair</a></li>
 </body>
 </html>
 
