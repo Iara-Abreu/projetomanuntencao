@@ -9,9 +9,10 @@ class DemandaController extends Controller
     public function index()
     {
     }
-    public function create() {
+    public function create()
+    {
         $v['title'] = 'Criar Demanda';
-        return response()->view('demanda.create',$v);
+        return response()->view('demanda.create', $v);
     }
 
     public function store()

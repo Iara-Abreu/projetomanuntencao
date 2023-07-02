@@ -8,7 +8,8 @@ class MapController extends Controller
 {
     public function getCoordinates(Request $request)
     {
-        $address = $request->input('rua') . ', ' . $request->input('nr_endereco') . ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
+        $address = $request->input('rua') . ', ' . $request->input('nr_endereco') .
+        ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
 
         // Substitua YOUR_GOOGLE_MAPS_API_KEY pela sua própria chave de API do Google Maps
         $apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
