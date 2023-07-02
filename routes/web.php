@@ -61,6 +61,10 @@ Route::post('situacao/store' , [\App\Http\Controllers\SituacaoController::class,
 Route::patch('situacao/{id_situacao}/update' , [\App\Http\Controllers\SituacaoController::class, 'update'])
     ->name('situacao.update');
 
+    Route::get('geocoder/search', 'GeocoderController@search')
+        ->name('geocoder.search');
+
+
     Route::get('user/create' , [\App\Http\Controllers\AuthController::class, 'create'])
     ->name('user.create');
 Route::post('user/store' , [\App\Http\Controllers\AuthController::class, 'store'])
