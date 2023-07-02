@@ -1,50 +1,32 @@
 <?php
 
-namespace App\Core\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
-class GeocoderController extends Controller
+class MapController extends Controller
 {
-    private $apiKeyGeocoder;
-
-    private $geocoderUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
-    private $geocoderToken = 'YOUR_MAPBOX_API_TOKEN';
-
-    public function __construct()
+    public function getCoordinates(Request $request)
     {
-        $this->apiKeyGeocoder = config('manutencao.api_key_geocoder');
-    }
+        $address = $request->input('rua') . ', ' . $request->input('nr_endereco') . ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
 
-    public function search(Request $request)
-    {
-        $address = $request->input('address');
+        // Substitua YOUR_GOOGLE_MAPS_API_KEY pela sua própria chave de API do Google Maps
+        $apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
 
-        if (!$address) {
-            return response()->json(['body' => 'Address is empty'], 500);
-        }
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($address) . "&key=" . $apiKey;
 
-        $params = [
-            'access_token' => $this->geocoderToken,
-            'country' => 'BR',
-        ];
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
 
-        $geocoderUrl = $this->geocoderUrl . urlencode($address) . '.json?' . http_build_query($params);
-
-        try {
-            $response = Http::get($geocoderUrl);
-
-            if ($response->ok()) {
-                $data = $response->json();
-                $coordinates = $data['features'][0]['center']; // Obtem as coordenadas do primeiro resultado
-                return response()->json(['latitude' => $coordinates[1], 'longitude' => $coordinates[0]], 200);
-            } else {
-                return response()->json(['body' => 'Geocoding request failed'], $response->status());
-            }
-        } catch (\Exception $ex) {
-            logger()->error('Geocoder failed: ' . $ex->getMessage());
-            return response()->json(['body' => 'Geocoding request failed'], 500);
+        if ($data['status'] === 'OK') {
+            $coordinates = $data['results'][0]['geometry']['location'];
+            return response()->json([
+                'success' => true,
+                'coordinates' => $coordinates,
+                'address' => $data['results'][0]['formatted_address'],
+            ]);
+        } else {
+            return response()->json(['success' => false]);
         }
     }
 }

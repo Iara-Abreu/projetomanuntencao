@@ -1,136 +1,335 @@
 @extends('layout.default')
+<style>
+    #map {
+
+
+        #map {
+
+
+
+            #map {
+                height: 400px;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+</style>
+<h1>Pesquisar Endereço no Mapa</h1>
 <div class="row">
-    <div class="col-md-4 col-lg-4">
+    <div class="col-md-4">
         <div class="col-md-9">
             <div class="form-group">
                 {{ Form::label('rua', 'Logradouro') }}
-                {{ Form::text('rua', null, ['class' => 'form-control']) }}
-
+                {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
             </div>
         </div>
         <div class="col-md-8">
             <div class="form-group">
                 {{ Form::label('nr_endereco', 'Número') }}
-                {{ Form::text('nr_endereco', null, ['class' => 'form-control']) }}
-
+                {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
             </div>
         </div>
-
         <div class="col-md-8">
             <div class="form-group">
                 {{ Form::label('bairro', 'Bairro') }}
-                {{ Form::text('bairro', null, ['class' => 'form-control']) }}
+                {{ Form::text('bairro', null, ['class' => 'form-control', 'id' => 'neighborhood']) }}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('cep', 'CEP') }}
                 {{ Form::text('cep', null, ['class' => 'form-control']) }}
-
-            </div>
-        </div>
-        <div class="col-md-12 col-lg-6">
-            <div class="form-group">
-                {{ Form::label('complemento', 'Complemento') }}
-                {{ Form::text('complemento', null, ['class' => 'form-control']) }}
-
             </div>
         </div>
         <div class="col-md-12 col-lg-6">
             <div class="form-group">
                 {{ Form::label('municipio', 'Município') }}
-                {{ Form::text('municipio', null, ['class' => 'form-control']) }}
-
+                {{ Form::text('municipio', null, ['class' => 'form-control', 'id' => 'city']) }}
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="col-md-7 col-lg-6">
-            <div class="form-group">
-                <button id="btnProcurar" type="button" data-loading-text="Aguarde..."
-                    class="btn btn-success btn-block">
-                    PROCURAR COORDENADA <span class="hidden-md"> DO ENDEREÇO</span>
-                </button>
-            </div>
-            <div class="col-md-5 col-lg-6">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">Coordenada</div>
-                        <input type="text" class="form-control" id="coordenada" name="coordenada" readonly
-                            value="{{ old('coordenada') }}">
-                    </div>
-                </div>
-            </div>
-            <hr class="hidden-lg">
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div id="map" class="img-rounded"></div>
-        </div>
+<form id="addressForm">
+    @csrf
+    <button type="submit">Pesquisar</button>
+</form>
+
+<div id="map"></div>
 
 
+<!-- Exibir coordenadas aqui -->
+<div id="coordinatesResult"></div>
 
-        <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
-            integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s=" crossorigin></script>
-        <script>
-            let $btnProcurar = $('#btnProcurar');
-            let $rua = $('#rua');
-            let $nr_casa = $('#nr_endereco');
-            let $bairro = $('#bairro');
-            let $cep = $('#cep');
-            let $municipio = $('#municipio');
-            let $coordenada = $('#coordenada');
+<script>
+    var map;
 
-            let map = L.map('map').setView([-8, -63], 6);
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: -23.5505199,
+                lng: -46.6333094
+            },
+            zoom: 15
+        });
+    }
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
+    $(document).ready(function() {
+                $('#addressForm').on('submit', function(e) {
+                            e.preventDefault();
+                            var formData = $(this).serialize();
 
-            let marker = L.marker([-8, -63], {
-                draggable: true
-            }).addTo(map);
+                            $.ajax({
+                                        type: 'POST',
+                                        url: '{{ route('getCoordinates') }}',
+                                        data: formData,
+                                        success: function(response) {
+                                                if (response.success) {
+                                                    var coordinates = response.coordinates;
+                                                    var location = {
+                                                        lat: parseFloat(coordinates.lat),
+                                                        lng: parseFloat(coordinates.lng)
+                                                    };
+                                                    map.setCenter(location);
 
-            $btnProcurar.on('click', function() {
-                let endereco = $rua.val() + ', ' + $nr_casa.val() + ' - ' + $bairro.val() + ' - ' + $cep.val() + ' - ' +
-                    $municipio.val();
-                let urlGeocoder = '{{ route('geocoder.search') }}';
+                                                    var marker = new google.maps.Marker({
+                                                        position: location,
+                                                        map: map,
+                                                        title: response.address
+                                                    });
 
-                $btnProcurar.button('loading');
+                                                    // Exibir coordenadas na tela
+                                                    var coordinatesResult = 'Latitude:
 
-                $.ajax({
-                    method: 'GET',
-                    url: urlGeocoder,
-                    data: {
-                        address: endereco
-                    },
-                    success: function(body) {
-                        if (body.meta.code === 200 && body.addresses[0].hasOwnProperty('geometry')) {
-                            let location = [
-                                body.addresses[0].latitude,
-                                body.addresses[0].longitude,
-                            ];
+                                                    var map;
 
-                            $coordenada.val(JSON.stringify(location));
+                                                    function initMap() {
+                                                        map = new google.maps.Map(document.getElementById('map'), {
+                                                            center: {
+                                                                lat: -23.5505199,
+                                                                lng: -46.6333094
+                                                            },
+                                                            zoom: 15
+                                                        });
+                                                    }
 
-                            const latlon = [body.addresses[0].latitude, body.addresses[0].longitude];
-                            marker.setLatLng(latlon);
+                                                    $(document).ready(function() {
+                                                                $('#addressForm').on('submit', function(e) {
+                                                                            e.preventDefault();
+                                                                            var formData = $(this).serialize();
 
-                            map.panTo(latlon);
-                            map.setView(location, 16);
-                        } else {
-                            alert('Não encontramos a coordenada do endereço informado.');
-                            $coordenada.val('');
-                        }
-                    },
-                    error: function(err) {
-                        console.error(err);
-                        alert('Não encontramos a coordenada do endereço informado.');
-                        $coordenada.val('');
-                    }
-                })
+                                                                            $.ajax({
+                                                                                        type: 'POST',
+                                                                                        url: '{{ route('getCoordinates') }}',
+                                                                                        data: formData,
+                                                                                        success: function(response) {
+                                                                                                if (response.success) {
+                                                                                                    var coordinates =
+                                                                                                        response
+                                                                                                        .coordinates;
+                                                                                                    var location = {
+                                                                                                        lat: parseFloat(
+                                                                                                            coordinates
+                                                                                                            .lat
+                                                                                                            ),
+                                                                                                        lng: parseFloat(
+                                                                                                            coordinates
+                                                                                                            .lng
+                                                                                                            )
+                                                                                                    };
+                                                                                                    map.setCenter(
+                                                                                                        location);
 
-                setTimeout(function() {
-                    $btnProcurar.button('reset');
-                }, 1000);
-            });
-        </script>
+                                                                                                    var marker =
+                                                                                                        new google.maps
+                                                                                                        .Marker({
+                                                                                                            position: location,
+                                                                                                            map: map,
+                                                                                                            title: response
+                                                                                                                .address
+                                                                                                        });
+
+                                                                                                    // Exibir coordenadas na tela
+                                                                                                    var coordinatesResult =
+                                                                                                        'Latitude
+
+                                                                                                    var map;
+
+                                                                                                    function initMap() {
+                                                                                                        map = new google
+                                                                                                            .maps.Map(
+                                                                                                                document
+                                                                                                                .getElementById(
+                                                                                                                    'map'
+                                                                                                                    ), {
+                                                                                                                    center: {
+                                                                                                                        lat: -
+                                                                                                                            23.5505199,
+                                                                                                                        lng: -
+                                                                                                                            46.6333094
+                                                                                                                    },
+                                                                                                                    zoom: 15
+                                                                                                                });
+                                                                                                    }
+
+                                                                                                    $(document).ready(
+                                                                                                            function() {
+                                                                                                                $('#addressForm')
+                                                                                                                    .on('submit',
+                                                                                                                        function(
+                                                                                                                            e
+                                                                                                                            ) {
+                                                                                                                            e
+                                                                                                                        .preventDefault();
+                                                                                                                            var formData =
+                                                                                                                                $(
+                                                                                                                                    this)
+                                                                                                                                .serialize();
+
+                                                                                                                            $.ajax({
+                                                                                                                                        type: 'POST',
+                                                                                                                                        url: '{{ route('getCoordinates') }}',
+                                                                                                                                        data: formData,
+                                                                                                                                        success: function(
+                                                                                                                                                response
+                                                                                                                                                ) {
+                                                                                                                                                if (response
+                                                                                                                                                    .success
+                                                                                                                                                    ) {
+                                                                                                                                                    var coordinates =
+                                                                                                                                                        response
+                                                                                                                                                        .coordinates;
+                                                                                                                                                    var location = {
+                                                                                                                                                        lat: parseFloat(
+                                                                                                                                                            coordinates
+                                                                                                                                                            .lat
+                                                                                                                                                            ),
+                                                                                                                                                        lng: parseFloat(
+                                                                                                                                                            coordinates
+                                                                                                                                                            .lng
+                                                                                                                                                            )
+                                                                                                                                                    };
+                                                                                                                                                    map.setCenter(
+                                                                                                                                                        location
+                                                                                                                                                        );
+
+                                                                                                                                                    var marker =
+                                                                                                                                                        new google
+                                                                                                                                                        .maps
+                                                                                                                                                        .Marker({
+                                                                                                                                                            position: location,
+                                                                                                                                                            map: map,
+                                                                                                                                                            title: response
+                                                                                                                                                                .address
+                                                                                                                                                        });
+
+                                                                                                                                                    // Exibir coordenadas na tela
+                                                                                                                                                    var coordinatesResult =
+                                                                                                                                                        'Latitude: ' +
+                                                                                                                                                        coordinates
+                                                                                                                                                        .lat +
+                                                                                                                                                        '<
+
+                                                                                                                                                    var
+                                                                                                                                                    map;
+
+                                                                                                                                                    function initMap() {
+                                                                                                                                                        map =
+                                                                                                                                                            new google
+                                                                                                                                                            .maps
+                                                                                                                                                            .Map(
+                                                                                                                                                                document
+                                                                                                                                                                .getElementById(
+                                                                                                                                                                    'map'
+                                                                                                                                                                    ), {
+                                                                                                                                                                    center: {
+                                                                                                                                                                        lat: -
+                                                                                                                                                                            23.5505199,
+                                                                                                                                                                        lng: -
+                                                                                                                                                                            46.6333094
+                                                                                                                                                                    },
+                                                                                                                                                                    zoom: 15
+                                                                                                                                                                }
+                                                                                                                                                                );
+                                                                                                                                                    }
+
+                                                                                                                                                    $(document)
+                                                                                                                                                        .ready(
+                                                                                                                                                            function() {
+                                                                                                                                                                $('#addressForm')
+                                                                                                                                                                    .on('submit',
+                                                                                                                                                                        function(
+                                                                                                                                                                            e
+                                                                                                                                                                            ) {
+                                                                                                                                                                            e
+                                                                                                                                                                        .preventDefault();
+                                                                                                                                                                            var formData =
+                                                                                                                                                                                $(
+                                                                                                                                                                                    this)
+                                                                                                                                                                                .serialize();
+
+                                                                                                                                                                            $.ajax({
+                                                                                                                                                                                type: 'POST',
+                                                                                                                                                                                url: '{{ route('getCoordinates') }}',
+                                                                                                                                                                                data: formData,
+                                                                                                                                                                                success: function(
+                                                                                                                                                                                    response
+                                                                                                                                                                                    ) {
+                                                                                                                                                                                    if (response
+                                                                                                                                                                                        .success
+                                                                                                                                                                                        ) {
+                                                                                                                                                                                        var coordinates =
+                                                                                                                                                                                            response
+                                                                                                                                                                                            .coordinates;
+                                                                                                                                                                                        var location = {
+                                                                                                                                                                                            lat: parseFloat(
+                                                                                                                                                                                                coordinates
+                                                                                                                                                                                                .lat
+                                                                                                                                                                                                ),
+                                                                                                                                                                                            lng: parseFloat(
+                                                                                                                                                                                                coordinates
+                                                                                                                                                                                                .lng
+                                                                                                                                                                                                )
+                                                                                                                                                                                        };
+                                                                                                                                                                                        map.setCenter(
+                                                                                                                                                                                            location
+                                                                                                                                                                                            );
+
+                                                                                                                                                                                        var marker =
+                                                                                                                                                                                            new google
+                                                                                                                                                                                            .maps
+                                                                                                                                                                                            .Marker({
+                                                                                                                                                                                                position: location,
+                                                                                                                                                                                                map: map,
+                                                                                                                                                                                                title: response
+                                                                                                                                                                                                    .address
+                                                                                                                                                                                            });
+
+                                                                                                                                                                                        // Exibir coordenadas na tela
+                                                                                                                                                                                        var coordinatesResult =
+                                                                                                                                                                                            'Latitude: ' +
+                                                                                                                                                                                            coordinates
+                                                                                                                                                                                            .lat +
+                                                                                                                                                                                            '<br>Longitude: ' +
+                                                                                                                                                                                            coordinates
+                                                                                                                                                                                            .lng;
+                                                                                                                                                                                        $('#coordinatesResult')
+                                                                                                                                                                                            .html(
+                                                                                                                                                                                                coordinatesResult
+                                                                                                                                                                                                );
+                                                                                                                                                                                    } else {
+                                                                                                                                                                                        alert
+                                                                                                                                                                                            (
+                                                                                                                                                                                                'Endereço não encontrado.');
+                                                                                                                                                                                    }
+                                                                                                                                                                                },
+                                                                                                                                                                                error: function() {
+                                                                                                                                                                                    alert
+                                                                                                                                                                                        (
+                                                                                                                                                                                            'Ocorreu um erro ao processar a solicitação.');
+                                                                                                                                                                                }
+                                                                                                                                                                            });
+                                                                                                                                                                        }
+                                                                                                                                                                        );
+                                                                                                                                                            }
+                                                                                                                                                            );
+</script>
