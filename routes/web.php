@@ -61,7 +61,7 @@ Route::post('situacao/store' , [\App\Http\Controllers\SituacaoController::class,
 Route::patch('situacao/{id_situacao}/update' , [\App\Http\Controllers\SituacaoController::class, 'update'])
     ->name('situacao.update');
 
-    Route::get('getCoordinates', 'GeocoderController@getCoordinates')
+    Route::post('getCoordinates', 'GeocoderController@getCoordinates')
         ->name('getCoordinates');
 
 

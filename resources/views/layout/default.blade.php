@@ -5,6 +5,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
 
     <!-- Seus outros arquivos CSS -->
 
@@ -15,6 +17,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
 
     <!-- Seus outros arquivos JS -->
 
@@ -35,7 +40,6 @@
 </div>
 @yield('main')
 
-<li><a class="dropdown-item" href="{{route('user.logout')}}">Sair</a></li>
 </body>
 </html>
 

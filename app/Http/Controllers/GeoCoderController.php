@@ -4,30 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MapController extends Controller
+class GeoCoderController extends Controller
 {
     public function getCoordinates(Request $request)
     {
-        $address = $request->input('rua') . ', ' . $request->input('nr_endereco') .
-        ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
+        try {
+            $address = $request->input('rua') . ' ' . $request->input('nr_endereco') . ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
 
-        // Substitua YOUR_GOOGLE_MAPS_API_KEY pela sua própria chave de API do Google Maps
-        $apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+            $url = "https://nominatim.openstreetmap.org/search?q=" . urlencode($address) . "&format=json&addressdetails=1&limit=1";
 
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($address) . "&key=" . $apiKey;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec($ch);
 
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
+            if ($response === false) {
+                throw new \Exception('CURL Error: ' . curl_error($ch));
+            }
 
-        if ($data['status'] === 'OK') {
-            $coordinates = $data['results'][0]['geometry']['location'];
-            return response()->json([
-                'success' => true,
-                'coordinates' => $coordinates,
-                'address' => $data['results'][0]['formatted_address'],
-            ]);
-        } else {
-            return response()->json(['success' => false]);
+            curl_close($ch);
+
+            $data = json_decode($response, true);
+
+            if (!empty($data) && isset($data[0]['lat']) && isset($data[0]['lon'])) {
+                $coordinates = [
+                    'lat' => $data[0]['lat'],
+                    'lng' => $data[0]['lon']
+                ];
+                $formattedAddress = $data[0]['display_name'];
+
+                return response()->json([
+                    'success' => true,
+                    'coordenadas' => $coordinates,
+                    'address' => $formattedAddress
+                ]);
+            } else {
+                return response()->json(['success' => false, 'error' => 'Endereço não encontrado.']);
+            }
+        } catch (\Exception $e) {
+            // Registrar a exceção no log
+            \Log::error($e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Ocorreu um erro ao processar a solicitação.']);
         }
     }
 }
