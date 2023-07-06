@@ -3,48 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class GeoCoderController extends Controller
 {
-    public function getCoordinates(Request $request)
+    public function search(Request $request)
     {
-        try {
-            $address = $request->input('rua') . ' ' . $request->input('nr_endereco') . ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
+        $address = $request->input('rua') . ' ' . $request->input('nr_endereco') .
+            ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
 
-            $url = "https://nominatim.openstreetmap.org/search?q=" . urlencode($address) . "&format=json&addressdetails=1&limit=1";
+        $url = 'https://nominatim.openstreetmap.org/search?format=json&q=' . urlencode($address);
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
+        $response = Http::get($url);
 
-            if ($response === false) {
-                throw new \Exception('CURL Error: ' . curl_error($ch));
-            }
+        if ($response->ok()) {
+            $data = $response->json();
 
-            curl_close($ch);
-
-            $data = json_decode($response, true);
-
-            if (!empty($data) && isset($data[0]['lat']) && isset($data[0]['lon'])) {
-                $coordinates = [
-                    'lat' => $data[0]['lat'],
-                    'lng' => $data[0]['lon']
-                ];
-                $formattedAddress = $data[0]['display_name'];
+            if (!empty($data)) {
+                $latitude = $data[0]['lat'];
+                $longitude = $data[0]['lon'];
 
                 return response()->json([
-                    'success' => true,
-                    'coordenadas' => $coordinates,
-                    'address' => $formattedAddress
+                    'latitude' => $latitude,
+                    'longitude' => $longitude
                 ]);
             } else {
-                return response()->json(['success' => false, 'error' => 'Endereço não encontrado.']);
+                return response()->json([
+                    'error' => 'Endereço não encontrado.'
+                ]);
             }
-        } catch (\Exception $e) {
-            // Registrar a exceção no log
-            \Log::error($e->getMessage());
-            return response()->json(['success' => false, 'error' => 'Ocorreu um erro ao processar a solicitação.']);
+        } else {
+            return response()->json([
+                'error' => 'Erro ao buscar o endereço.'
+            ]);
         }
     }
 }

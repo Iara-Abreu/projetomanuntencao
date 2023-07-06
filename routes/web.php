@@ -61,11 +61,10 @@ Route::post('situacao/store' , [\App\Http\Controllers\SituacaoController::class,
 Route::patch('situacao/{id_situacao}/update' , [\App\Http\Controllers\SituacaoController::class, 'update'])
     ->name('situacao.update');
 
-    Route::post('getCoordinates', 'GeocoderController@getCoordinates')
-        ->name('getCoordinates');
+Route::get('/address/search', [\App\Http\Controllers\GeoCoderController::class, 'search'])
+    ->name('getCoordinates');
 
-
-    Route::get('user/create' , [\App\Http\Controllers\AuthController::class, 'create'])
+Route::get('user/create' , [\App\Http\Controllers\AuthController::class, 'create'])
     ->name('user.create');
 Route::post('user/store' , [\App\Http\Controllers\AuthController::class, 'store'])
     ->name('user.store');
