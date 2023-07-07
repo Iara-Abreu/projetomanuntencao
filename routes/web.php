@@ -1,17 +1,8 @@
 <?php
 
+use App\Http\Controllers\DemandaController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('inicio');
@@ -27,6 +18,9 @@ Route::post('demanda/store' , [\App\Http\Controllers\DemandaController::class, '
     ->name('demanda.store');
 Route::patch('demanda/{id_demanda}/update' , [\App\Http\Controllers\DemandaController::class, 'update'])
     ->name('demanda.update');
+Route::get('/upload-image', [DemandaController::class, 'uploadImage'])
+    ->name('uploadImage');
+
 
 Route::get('tipo_demanda' , [\App\Http\Controllers\TipoDemandaController::class, 'index'])
     ->name('tipo_demanda.index');

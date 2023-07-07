@@ -17,7 +17,7 @@ class Bairro extends Model
 
         $arr = [];
         foreach ($bairros as $bar) {
-            $arr[$bar->id_bairro] = $bar->ds_bairro;
+            $arr[$bar->ds_bairro] = $bar->ds_bairro;
         }
         return $arr;
     }

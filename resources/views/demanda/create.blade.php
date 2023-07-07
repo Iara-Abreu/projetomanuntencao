@@ -15,13 +15,13 @@
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="form-group">
                             {{ Form::label('descricao', 'Descrição') }}
                             {{ Form::textarea('descricao', null, ['class' => 'form-control', 'id' => 'address']) }}
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="container border">
                             <h3 class="mt-3">Pesquisar Endereço no Mapa</h3>
                             {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('bairro', 'Bairro') }}
-                                        {{ Form::text('bairro', null, ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                                        {{ Form::select('bairro',$bairros, ['class' => 'form-control', 'id' => 'neighborhood']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('municipio', 'Município') }}
@@ -51,34 +51,37 @@
                             </div>
                             {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
                             {!! Form::close() !!}
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ Form::label('coordenada', '') }}
+                                    {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('coordenada', '') }}
-                            {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
-                        </div>
-                    </div>
+                {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
+                <div class="form-group">
+                    {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
+                    {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('id_bairro', 'Bairros') }}
-                            {{ Form::select('id_bairro', $bairros, ['class' => 'form-control', 'id' => 'coordinates']) }}
-                        </div>
-                    </div>
-                </div>
+                {!! Form::close() !!}
+
+
             </div>
         </div>
     </div>
+    <div id="fotos-container">
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var mymap = L.map('map').setView([0, 0], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> contributors'
@@ -86,7 +89,7 @@
 
             var marker;
 
-            $('#addressForm').submit(function(event) {
+            $('#addressForm').submit(function (event) {
                 event.preventDefault();
 
                 var formData = $(this).serialize();
@@ -94,7 +97,7 @@
                     url: '{{ route('getCoordinates') }}',
                     type: 'GET',
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         var latitude = parseFloat(response.latitude);
                         var longitude = parseFloat(response.longitude);
 
@@ -113,11 +116,35 @@
                         $('#coordinates').val('Latitude: ' + latitude + ', Longitude: ' +
                             longitude);
                     },
-                    error: function() {
+                    error: function () {
                         $('#coordinates').val('Erro ao buscar o endereço.');
                     }
                 });
             });
         });
+        $(document).ready(function() {
+            $('#imagem').change(function() {
+                var formData = new FormData();
+                formData.append('imagem', $('#imagem')[0].files[0]);
+
+                $.ajax({
+                    url: '{{ route("uploadImage") }}',
+                    type: 'GET',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var imageUrl = response.image_url;
+
+                        var imageElement = $('<img>').attr('src', imageUrl);
+                        $('#fotos-container').append(imageElement);
+                    },
+                    error: function() {
+                        alert('Erro ao enviar a imagem.');
+                    }
+                });
+            });
+        });
+
     </script>
 @endsection
