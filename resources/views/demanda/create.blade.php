@@ -7,42 +7,70 @@
             margin-bottom: 20px;
         }
     </style>
-    <h1>Pesquisar Endereço no Mapa</h1>
-    {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                {{ Form::label('rua', 'Logradouro') }}
-                {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
+    <div class="container border justify-content-between">
+        <div class="box">
+            <div class="box-title">
+                <h3>{{ $title }}</h3>
             </div>
-            <div class="form-group">
-                {{ Form::label('nr_endereco', 'Número') }}
-                {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('bairro', 'Bairro') }}
-                {{ Form::text('bairro', null, ['class' => 'form-control', 'id' => 'neighborhood']) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('cep', 'CEP') }}
-                {{ Form::text('cep', null, ['class' => 'form-control']) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('municipio', 'Município') }}
-                {{ Form::text('municipio', null, ['class' => 'form-control', 'id' => 'city']) }}
-            </div>
-        </div>
-    </div>
-    {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
-    {!! Form::close() !!}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ Form::label('descricao', 'Descrição') }}
+                            {{ Form::textarea('descricao', null, ['class' => 'form-control', 'id' => 'address']) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container border">
+                            <h3 class="mt-3">Pesquisar Endereço no Mapa</h3>
+                            {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
 
-    <div id="map"></div>
-
-    <div class="col-md-12 col-lg-6">
-        <div class="form-group">
-            {{ Form::label('coordenada', '') }}
-            {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ Form::label('rua', 'Logradouro') }}
+                                        {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ Form::label('nr_endereco', 'Número') }}
+                                        {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ Form::label('bairro', 'Bairro') }}
+                                        {{ Form::text('bairro', null, ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ Form::label('municipio', 'Município') }}
+                                        {{ Form::text('municipio', 'Porto Velho', ['class' => 'form-control', 'id' => 'city']) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                            {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ Form::label('coordenada', '') }}
+                            {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ Form::label('id_bairro', 'Bairros') }}
+                            {{ Form::select('id_bairro', $bairros, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -63,7 +91,7 @@
 
                 var formData = $(this).serialize();
                 $.ajax({
-                    url: '{{ route("getCoordinates") }}',
+                    url: '{{ route('getCoordinates') }}',
                     type: 'GET',
                     data: formData,
                     success: function(response) {
@@ -82,7 +110,8 @@
                         mymap.setView([latitude, longitude], 13);
 
                         // Exibe as coordenadas no campo de texto
-                        $('#coordinates').val('Latitude: ' + latitude + ', Longitude: ' + longitude);
+                        $('#coordinates').val('Latitude: ' + latitude + ', Longitude: ' +
+                            longitude);
                     },
                     error: function() {
                         $('#coordinates').val('Erro ao buscar o endereço.');

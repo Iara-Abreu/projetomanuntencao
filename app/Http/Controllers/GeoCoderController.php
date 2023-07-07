@@ -10,7 +10,7 @@ class GeoCoderController extends Controller
     public function search(Request $request)
     {
         $address = $request->input('rua') . ' ' . $request->input('nr_endereco') .
-            ', ' . $request->input('bairro') . ', ' . $request->input('municipio');
+        ' - ' . $request->input('bairro') . ', ' . $request->input('municipio') ;
 
         $url = 'https://nominatim.openstreetmap.org/search?format=json&q=' . urlencode($address);
 
