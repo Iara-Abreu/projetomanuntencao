@@ -71,6 +71,7 @@
                 {!! Form::close() !!}
 
 
+
             </div>
         </div>
     </div>
@@ -122,25 +123,35 @@
                 });
             });
         });
+    </script>
+    <script>
         $(document).ready(function() {
             $('#imagem').change(function() {
                 var formData = new FormData();
-                formData.append('imagem', $('#imagem')[0].files[0]);
+                var files = $('#imagem')[0].files;
+
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('imagem[]', files[i]);
+                }
 
                 $.ajax({
                     url: '{{ route("uploadImage") }}',
-                    type: 'GET',
+                    type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        var imageUrl = response.image_url;
+                        var imageUrls = response.image_urls;
 
-                        var imageElement = $('<img>').attr('src', imageUrl);
-                        $('#fotos-container').append(imageElement);
+                        for (var i = 0; i < imageUrls.length; i++) {
+                            var imageUrl = imageUrls[i];
+
+                            var imageElement = $('<img>').attr('src', imageUrl);
+                            $('#fotos-container').append(imageElement);
+                        }
                     },
                     error: function() {
-                        alert('Erro ao enviar a imagem.');
+                        alert('Erro ao enviar as imagens.');
                     }
                 });
             });
