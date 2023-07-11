@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bairro;
 use App\Models\Demanda;
+use App\Models\TipoDemanda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +12,8 @@ class DemandaController extends Controller
 {
     public function __construct(
         private Bairro  $bairro,
-        private Demanda $demanda
+        private Demanda $demanda,
+        private TipoDemanda $tipoDemanda
     )
     {
     }
@@ -36,6 +38,8 @@ class DemandaController extends Controller
     {
         $v['title'] = 'Criar Demanda';
         $v['bairros'] = $this->bairro->selectList();
+        $v['tipoDemandas'] = $this->tipoDemanda->selectList();
+
         return response()->view('demanda.create', $v);
     }
 

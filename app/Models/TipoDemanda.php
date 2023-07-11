@@ -10,8 +10,15 @@ class TipoDemanda extends Model
 
     protected $primaryKey = 'id_tipo_demanda';
 
-//    public function
-//    {
-//
-//    }
+    public function selectList()
+    {
+        $tipo_demandas = $this->orderBy('ds_tipo_demanda')
+            ->get();
+
+        $arr = [];
+        foreach ($tipo_demandas as $bar) {
+            $arr[$bar->ds_tipo_demanda] = $bar->ds_tipo_demanda;
+        }
+        return $arr;
+    }
 }
