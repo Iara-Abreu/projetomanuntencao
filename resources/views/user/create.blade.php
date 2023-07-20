@@ -56,8 +56,6 @@
                 {{ Form::select('id_perfil', $perfis, $id_perfil ?? null, ['autofocus']) }}
             </div>
 
-
-
         </div>
         <div class="box-footer mb-2 text-end">
             <br>
