@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('demanda');
+        Schema::dropIfExists('demandas');
     }
 };
