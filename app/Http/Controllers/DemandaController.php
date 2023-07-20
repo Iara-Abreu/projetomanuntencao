@@ -11,11 +11,10 @@ use Illuminate\Support\Facades\Storage;
 class DemandaController extends Controller
 {
     public function __construct(
-        private Bairro  $bairro,
+        private Bairro $bairro,
         private Demanda $demanda,
         private TipoDemanda $tipoDemanda
-    )
-    {
+    ) {
     }
 
     public function index()
@@ -56,7 +55,6 @@ class DemandaController extends Controller
 
     public function show()
     {
-
     }
 
     private function showBase64Image($artista)

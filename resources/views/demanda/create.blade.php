@@ -8,123 +8,104 @@
         }
     </style>
 
-    <div class="container border justify-content-between">
+    <div class="container border">
         <div class="box">
             <div class="box-title">
                 <h3>{{ $title }}</h3>
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <div class="form-group">
                             {{ Form::label('descricao', 'Descrição') }}
                             {{ Form::textarea('descricao', null, ['class' => 'form-control', 'id' => 'address']) }}
                         </div>
                     </div>
-                </div>
-
-                <div class="container border mt-3 mb-3">
-                    <h3 class="mt-3">Pesquisar Endereço no Mapa</h3>
-                    {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
-
-                    <div class="row">
-                        <div class="form-group">
-                            {{ Form::label('rua', 'Logradouro') }}
-                            {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
+                    <div class="row ">
+                        {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group col-md-2">
+                            {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
+                            {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
                         </div>
-                        <div class="form-group">
-                            {{ Form::label('nr_endereco', 'Número') }}
-                            {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
-                        </div>
+                        {!! Form::close() !!}
 
-
-                          <div id="map"></div>
-                    </div>
-                    <div class="row">
                         <div class="form-group">
-                            {{ Form::label('bairro', 'Bairro') }}
-                            {{ Form::select('bairro', ['Selecione o Bairro', $bairros], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                            {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
+                            {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group">
-                            {{ Form::label('municipio', 'Município') }}
-                            {{ Form::text('municipio', 'Porto Velho', ['class' => 'form-control', 'id' => 'city']) }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
-                    </div>
-
-                    {!! Form::close() !!}
-                </div>
-
-            </div>
-
-
-
-            {{--  <div class="col-md-5">
-                        <div class="container border">
+                    <div class="col-md-4">
+                        <div class="container border mt-3 mb-3">
                             <h3 class="mt-3">Pesquisar Endereço no Mapa</h3>
                             {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{ Form::label('rua', 'Logradouro') }}
-                                        {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ Form::label('nr_endereco', 'Número') }}
-                                        {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ Form::label('bairro', 'Bairro') }}
-                                        {{ Form::select('bairro',['Selecione o Bairro',$bairros], ['class' => 'form-control', 'id' => 'neighborhood']) }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ Form::label('municipio', 'Município') }}
-                                        {{ Form::text('municipio', 'Porto Velho', ['class' => 'form-control', 'id' => 'city']) }}
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('rua', 'Logradouro') }}
+                                    {{ Form::text('rua', null, ['class' => 'form-control', 'id' => 'address']) }}
                                 </div>
-                                <div class="col-md-6">
-                                    <div id="map"></div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('nr_endereco', 'Número') }}
+                                    {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
                                 </div>
                             </div>
-                            {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
-                            {!! Form::close() !!}
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('bairro', 'Bairro') }}
+                                    {{ Form::select('bairro', ['Selecione o Bairro', $bairros], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('municipio', 'Município') }}
+                                    {{ Form::text('municipio', 'Porto Velho', ['class' => 'form-control', 'id' => 'city']) }}
+                                </div>
+                            </div>
 
-                        </div> --}}
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{ Form::label('coordenada', '') }}
-                        {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                            <div id="map"></div>
+
+                            <div class="row">
+                                {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
+                            </div>
+
+
+                            {!! Form::close() !!}
+                        </div>
                     </div>
+                </div>
+
+                <!-- Additional Form Fields -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ Form::label('coordenada', '') }}
+                            {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                        </div>
+                    </div>
+                </div>
+
+                {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
+                <!-- Rest of the form fields -->
+                <div class="form-group">
+                    {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
+                    {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
+                </div>
+                {!! Form::close() !!}
+
+                <div class="form-group">
+                    {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
+                    {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
                 </div>
             </div>
         </div>
     </div>
-    {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
-    <div class="form-group">
-        {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
-        {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
-    </div>
-    {!! Form::close() !!}
-    <div class="form-group">
-        {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
-        {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
-    </div>
-    </div>
-    </div>
-    </div>
+
     <div id="fotos-container">
+        <!-- Additional content if needed -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
 
+    <!-- Map Script -->
     <script>
         $(document).ready(function() {
             var mymap = L.map('map').setView([0, 0], 13);
@@ -146,18 +127,18 @@
                         var latitude = parseFloat(response.latitude);
                         var longitude = parseFloat(response.longitude);
 
-                        // Remove o marcador anterior, se existir
+                        // Remove the previous marker, if exists
                         if (marker) {
                             mymap.removeLayer(marker);
                         }
 
-                        // Cria um novo marcador com as coordenadas
+                        // Create a new marker with the coordinates
                         marker = L.marker([latitude, longitude]).addTo(mymap);
 
-                        // Centraliza o mapa nas coordenadas do marcador
+                        // Center the map on the marker's coordinates
                         mymap.setView([latitude, longitude], 13);
 
-                        // Exibe as coordenadas no campo de texto
+                        // Display the coordinates in the text field
                         $('#coordinates').val('Latitude: ' + latitude + ', Longitude: ' +
                             longitude);
                     },
@@ -168,6 +149,7 @@
             });
         });
     </script>
+    <!-- Image Upload Script -->
     <script>
         $(document).ready(function() {
             $('#imagem').change(function() {

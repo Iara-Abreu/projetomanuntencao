@@ -24,6 +24,27 @@
 
 </head>
 <body>
+    <header class="mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" href="#">Sobre</a>
+                        <a class="nav-link" href="{{ route('user.create', ['id_perfil' => 'Cidadão']) }}">Sou cidadão</a>
+                        <a class="nav-link" href="{{ route('user.create', ['id_perfil' => 'Orgão']) }}">Sou Órgão</a>
+                        <a class="nav-link" href="{{route('user.login')}}">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 <div class="container col-md-6">
     @if(session('success'))
         <div class="alert alert-success">
