@@ -42,8 +42,22 @@ class DemandaController extends Controller
         return response()->view('demanda.create', $v);
     }
 
-    public function store()
+    public function store(Request $req)
     {
+        try {
+            $user = $this->user->newInstance();
+            $user->ds_demanda = $req->input('ds_demanda');
+            $user->coordenada = $req->input('coordenada');
+            $user->id_tipo_demanda = $req->input('tipoDemanda');
+            $user->url_imagem = $req->input('imagem');
+            if ($user->save()) {
+                return redirect()->route('user.login')
+                    ->with('success', 'Usuário registrado com sucesso!');
+            }
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $ex->getMessage());
+        }
+        return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário.');
     }
 
     private function storeBase64Image($imageFile)
