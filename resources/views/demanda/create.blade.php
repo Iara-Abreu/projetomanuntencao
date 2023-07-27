@@ -81,7 +81,7 @@
                             <div id="map"></div>
 
                             <div class="row">
-                                {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Pesquisar', ['class' => 'btn btn-success']) }}
                             </div>
                             {!! Form::close() !!}
                         </div>
