@@ -6,6 +6,7 @@ use App\Models\Bairro;
 use App\Models\Demanda;
 use App\Models\TipoDemanda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DemandaController extends Controller
@@ -45,14 +46,16 @@ class DemandaController extends Controller
     public function store(Request $req)
     {
         try {
-            $user = $this->user->newInstance();
-            $user->ds_demanda = $req->input('ds_demanda');
-            $user->coordenada = $req->input('coordenada');
-            $user->id_tipo_demanda = $req->input('tipoDemanda');
-            $user->url_imagem = $req->input('imagem');
-            if ($user->save()) {
-                return redirect()->route('user.login')
-                    ->with('success', 'Usuário registrado com sucesso!');
+            $demanda = $this->demanda->newInstance();
+            $demanda->ds_demanda = $req->input('ds_demanda');
+            $demanda->coordenada = $req->input('coordenada');
+            $demanda->id_tipo_demanda = $req->input('tipoDemanda');
+            $demanda->url_imagem = $req->input('imagem');
+            $demanda->id_usuario = Auth::id();
+            $demanda->id_bairro = $req->input();
+            if ($demanda->save()) {
+                return redirect()->route('demanda.index')
+                    ->with('success', 'Demanda registrado com sucesso!');
             }
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $ex->getMessage());

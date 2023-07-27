@@ -42,7 +42,6 @@
                     </div>
                 @endif
             </div>
-
             <div class="form-group">
                 {!! Form::label('password_confirmation', 'Confirme a senha') !!}
                 {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
