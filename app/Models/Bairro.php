@@ -11,14 +11,16 @@ class Bairro extends Model
     protected $primaryKey = 'id_bairro';
 
     public function selectList()
-    {
-        $bairros = $this->orderBy('ds_bairro')
-            ->get();
+{
+    $bairros = $this->select('id_bairro', 'ds_bairro') // Seleciona os campos id_bairro e ds_bairro
+    ->orderBy('ds_bairro')
+        ->get();
 
-        $arr = [];
-        foreach ($bairros as $bar) {
-            $arr[$bar->ds_bairro] = $bar->ds_bairro;
-        }
-        return $arr;
+    $arr = [];
+    foreach ($bairros as $bar) {
+        $arr[$bar->ds_bairro] = $bar->ds_bairro;
     }
+    return $arr;
+}
+
 }

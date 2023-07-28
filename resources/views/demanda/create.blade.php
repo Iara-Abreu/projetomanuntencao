@@ -1,4 +1,5 @@
 @extends('layout.default')
+
 @section('main')
     <style>
         #map {
@@ -8,16 +9,16 @@
         }
     </style>
 
-    <div class="container border col-md-8">
+    <div class="container border col-md-7">
         <div class="box">
             <div class="box-title">
                 <h3>{{ $title }}</h3>
             </div>
             {!! Form::open([
-                'class' => 'form-horizontal',
-                'method' => 'POST',
-                'route' => 'demanda.store',
-                'enctype' => 'multipart/form-data',
+            'class' => 'form-horizontal',
+            'method' => 'POST',
+            'route' => 'demanda.store',
+            'enctype' => 'multipart/form-data',
             ]) !!}
             <div class="box-body">
                 <div class="row">
@@ -35,21 +36,24 @@
                                     {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
-                            {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                            <div class="form-group col-md-6">
+                                {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
+                                {{ Form::select('tipoDemanda', ['Selecione o tipo'] + $tipoDemandas, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
-                            {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
+                            {!! Form::label('imagem', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
+                            {!! Form::file('imagem', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="row">
                             {{ Form::submit('Publicar', ['class' => 'btn btn-primary', 'type' => 'submit']) }}
                         </div>
+
+                        {{ Form::hidden('id_bairro', null, ['id' => 'id_bairro']) }}
+
                         {!! Form::close() !!}
                     </div>
                     <div class="col-md-5">
@@ -64,13 +68,13 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     {{ Form::label('nr_endereco', 'Número') }}
-                                    {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
+                                    {{ Form::text('nr_endereco', null, ['class' => 'form-control chosen', 'id' => 'number']) }}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     {{ Form::label('bairro', 'Bairro') }}
-                                    {{ Form::select('bairro', ['Selecione o Bairro', $bairros], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                                    {{ Form::select('bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
                                 </div>
                                 <div class="form-group col-md-6">
                                     {{ Form::label('municipio', 'Município') }}
@@ -89,7 +93,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div id="fotos-container">
@@ -97,11 +100,11 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
 
     <!-- Map Script -->
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var mymap = L.map('map').setView([0, 0], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> contributors'
@@ -109,16 +112,15 @@
 
             var marker;
 
-            $('#addressForm').submit(function (event) {
+            $('#addressForm').submit(function(event) {
                 event.preventDefault();
-
 
                 var formData = $(this).serialize();
                 $.ajax({
                     url: '{{ route('getCoordinates') }}',
                     type: 'GET',
                     data: formData,
-                    success: function (response) {
+                    success: function(response) {
                         var latitude = parseFloat(response.latitude);
                         var longitude = parseFloat(response.longitude);
 
@@ -137,7 +139,7 @@
                         $('#coordinates').val('Latitude: ' + latitude + ', Longitude: ' +
                             longitude);
                     },
-                    error: function () {
+                    error: function() {
                         $('#coordinates').val('Erro ao buscar o endereço.');
                     }
                 });
@@ -146,8 +148,8 @@
     </script>
     <!-- Image Upload Script -->
     <script>
-        $(document).ready(function () {
-            $('#imagem').change(function () {
+        $(document).ready(function() {
+            $('#imagem').change(function() {
                 var formData = new FormData();
                 var files = $('#imagem')[0].files;
 
@@ -161,7 +163,7 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
+                    success: function(response) {
                         var imageUrls = response.image_urls;
 
                         for (var i = 0; i < imageUrls.length; i++) {
@@ -171,7 +173,7 @@
                             $('#fotos-container').append(imageElement);
                         }
                     },
-                    error: function () {
+                    error: function() {
                         alert('Erro ao enviar as imagens.');
                     }
                 });

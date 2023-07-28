@@ -43,32 +43,35 @@ class DemandaController extends Controller
         return response()->view('demanda.create', $v);
     }
 
-    public function store(Request $req)
+    public function store(Request $request)
     {
         try {
-            $demanda = $this->demanda->newInstance();
-            $demanda->ds_demanda = $req->input('ds_demanda');
-            $demanda->coordenada = $req->input('coordenada');
-            $demanda->id_tipo_demanda = $req->input('tipoDemanda');
-            $demanda->url_imagem = $req->input('imagem');
+            $demanda = new Demanda();
+
+            $demanda->ds_demanda = $request->input('ds_demanda');
+            $demanda->url_imagem = $this->getBase64Image($request->file('imagem'));
             $demanda->id_usuario = Auth::id();
-            $demanda->id_bairro = $req->input();
+            $demanda->id_bairro = $request->input('id_bairro');
+            $demanda->id_tipo_demanda = $request->input('tipoDemanda');
+
             if ($demanda->save()) {
-                return redirect()->route('demanda.index')
-                    ->with('success', 'Demanda registrado com sucesso!');
+                return redirect()->route('demanda.index')->with('success', 'Demanda registrada com sucesso!');
             }
         } catch (\Exception $ex) {
-            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $ex->getMessage());
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar a demanda: ' . $ex->getMessage());
         }
-        return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário.');
+
+        return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar a demanda.');
     }
 
-    private function storeBase64Image($imageFile)
+    private function getBase64Image($imageFile)
     {
         $mimeType = $imageFile->getMimeType();
         $base64 = 'data:' . $mimeType . ';base64,' . base64_encode($imageFile->getContent());
         return $base64;
     }
+
+
 
     public function show()
     {
