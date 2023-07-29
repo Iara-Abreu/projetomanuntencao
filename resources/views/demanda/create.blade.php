@@ -41,6 +41,11 @@
                                 {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
                                 {{ Form::select('tipoDemanda', ['Selecione o tipo'] + $tipoDemandas, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
                             </div>
+
+                            <div class="form-group col-md-6">
+                                {{ Form::label('bairro', 'Bairro') }}
+                                {{ Form::select('bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -74,7 +79,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     {{ Form::label('bairro', 'Bairro') }}
-                                    {{ Form::select('bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                                    {{ Form::select('bairro', ['Selecione'] + $bairrosMapa, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
                                 </div>
                                 <div class="form-group col-md-6">
                                     {{ Form::label('municipio', 'Município') }}
