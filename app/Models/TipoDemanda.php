@@ -17,7 +17,7 @@ class TipoDemanda extends Model
 
         $arr = [];
         foreach ($tipo_demandas as $bar) {
-            $arr[$bar->ds_tipo_demanda] = $bar->ds_tipo_demanda;
+            $arr[$bar->id_tipo_demanda] = $bar->ds_tipo_demanda;
         }
         return $arr;
     }
