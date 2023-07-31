@@ -1,4 +1,5 @@
 @extends('layout.default')
+
 @section('main')
     <style>
         #map {
@@ -8,33 +9,57 @@
         }
     </style>
 
-    <div class="container border">
+    <div class="container border col-md-7">
         <div class="box">
             <div class="box-title">
                 <h3>{{ $title }}</h3>
             </div>
+            {!! Form::open([
+            'class' => 'form-horizontal',
+            'method' => 'POST',
+            'route' => 'demanda.store',
+            'enctype' => 'multipart/form-data',
+            ]) !!}
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            {{ Form::label('descricao', 'Descrição') }}
-                            {{ Form::textarea('descricao', null, ['class' => 'form-control', 'id' => 'address']) }}
-                        </div>
-                    </div>
-                    <div class="row ">
-                        {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
-                        <div class="form-group col-md-2">
-                            {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
-                            {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
-                        </div>
-                        {!! Form::close() !!}
+                    <div class="col-md-6">
 
                         <div class="form-group">
-                            {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
-                            {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                            {{ Form::label('ds_demanda', 'Descrição') }}
+                            {{ Form::textarea('ds_demanda', null, ['class' => 'form-control', 'id' => 'address']) }}
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ Form::label('coordenada', 'Coordenada' ) }}
+                                    {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
+                                {{ Form::select('tipoDemanda', ['Selecione o tipo'] + $tipoDemandas, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {{ Form::label('id_bairro', 'Bairro') }}
+                                {{ Form::select('id_bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('imagem', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
+                            {!! Form::file('imagem', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="row">
+                            {{ Form::submit('Publicar', ['class' => 'btn btn-primary', 'type' => 'submit']) }}
+                        </div>
+
+                        {!! Form::close() !!}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="container border mt-3 mb-3">
                             <h3 class="mt-3">Pesquisar Endereço no Mapa</h3>
                             {!! Form::open(['route' => 'getCoordinates', 'method' => 'GET', 'id' => 'addressForm']) !!}
@@ -46,13 +71,13 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     {{ Form::label('nr_endereco', 'Número') }}
-                                    {{ Form::text('nr_endereco', null, ['class' => 'form-control', 'id' => 'number']) }}
+                                    {{ Form::text('nr_endereco', null, ['class' => 'form-control chosen', 'id' => 'number']) }}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     {{ Form::label('bairro', 'Bairro') }}
-                                    {{ Form::select('bairro', ['Selecione o Bairro', $bairros], ['class' => 'form-control', 'id' => 'neighborhood']) }}
+                                    {{ Form::select('bairro', ['Selecione'] + $bairrosMapa, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
                                 </div>
                                 <div class="form-group col-md-6">
                                     {{ Form::label('municipio', 'Município') }}
@@ -63,36 +88,11 @@
                             <div id="map"></div>
 
                             <div class="row">
-                                {{ Form::submit('Pesquisar', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Pesquisar', ['class' => 'btn btn-success']) }}
                             </div>
-
-
                             {!! Form::close() !!}
                         </div>
                     </div>
-                </div>
-
-                <!-- Additional Form Fields -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('coordenada', '') }}
-                            {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
-                        </div>
-                    </div>
-                </div>
-
-                {!! Form::open(['route' => 'uploadImage', 'method' => 'GET', 'enctype' => 'multipart/form-data']) !!}
-                <!-- Rest of the form fields -->
-                <div class="form-group">
-                    {!! Form::label('imagem[]', 'Imagem', ['class' => 'control-label col-md-3 col-lg-2']) !!}
-                    {!! Form::file('imagem[]', ['class' => 'form-control', 'multiple' => true]) !!}
-                </div>
-                {!! Form::close() !!}
-
-                <div class="form-group">
-                    {{ Form::label('tipoDemanda', 'Tipo de Demanda') }}
-                    {{ Form::select('tipoDemanda', ['Selecione o tipo', $tipoDemandas], ['class' => 'form-control', 'id' => 'neighborhood']) }}
                 </div>
             </div>
         </div>

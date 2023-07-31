@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BairroTableSeeder::class);
         $this->call(PerfTableSeeder::class);
         $this->call(TipoDemandasTableSeeder::class);
+        $this->call(SituacaoTableSeeder::class);
 
     }
 }

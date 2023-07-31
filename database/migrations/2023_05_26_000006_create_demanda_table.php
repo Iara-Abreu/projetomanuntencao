@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('demandas', function (Blueprint $table) {
             $table->bigIncrements( 'id_demanda');
             $table->string('ds_demanda');
-            $table->text('url_imagem');
-            $table->string('coordenada');
+            $table->longText('url_imagem');
+            $table->string('coordenada')->default('');
             $table->unsignedBigInteger('id_tipo_demanda');
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_bairro');
