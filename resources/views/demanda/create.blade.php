@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {{ Form::label('coordenada', '') }}
+                                    {{ Form::label('coordenada', 'Coordenada' ) }}
                                     {{ Form::text('coordenada', null, ['class' => 'form-control', 'id' => 'coordinates']) }}
                                 </div>
                             </div>
@@ -43,8 +43,8 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                {{ Form::label('bairro', 'Bairro') }}
-                                {{ Form::select('bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
+                                {{ Form::label('id_bairro', 'Bairro') }}
+                                {{ Form::select('id_bairro', ['Selecione'] + $bairros, null, ['class' => 'form-control c', 'id' => 'neighborhood']) }}
                             </div>
                         </div>
 
@@ -56,8 +56,6 @@
                         <div class="row">
                             {{ Form::submit('Publicar', ['class' => 'btn btn-primary', 'type' => 'submit']) }}
                         </div>
-
-                        {{ Form::hidden('id_bairro', null, ['id' => 'id_bairro']) }}
 
                         {!! Form::close() !!}
                     </div>

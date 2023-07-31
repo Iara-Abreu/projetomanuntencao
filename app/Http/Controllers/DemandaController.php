@@ -52,12 +52,14 @@ class DemandaController extends Controller
 
             $demanda->ds_demanda = $request->input('ds_demanda');
             $demanda->url_imagem = $this->getBase64Image($request->file('imagem'));
+            $demanda->coordenada = $request->input('coordenada');
             $demanda->id_usuario = Auth::id();
             $demanda->id_bairro = $request->input('id_bairro');
             $demanda->id_tipo_demanda = $request->input('tipoDemanda');
+            $demanda->id_situacao = 1;
 
             if ($demanda->save()) {
-                return redirect()->route('demanda.index')->with('success', 'Demanda registrada com sucesso!');
+                return redirect()->route('demanda.create')->with('success', 'Demanda registrada com sucesso!');
             }
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar a demanda: ' . $ex->getMessage());

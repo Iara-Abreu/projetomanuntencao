@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements( 'id_demanda');
             $table->string('ds_demanda');
             $table->longText('url_imagem');
-            $table->string('coordenada');
+            $table->string('coordenada')->default('');
             $table->unsignedBigInteger('id_tipo_demanda');
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_bairro');
