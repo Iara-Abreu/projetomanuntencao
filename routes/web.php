@@ -60,6 +60,8 @@ Route::get('/address/search', [\App\Http\Controllers\GeoCoderController::class, 
 
 Route::get('user/create', [\App\Http\Controllers\AuthController::class, 'create'])
     ->name('user.create');
+Route::get('user/show', [\App\Http\Controllers\AuthController::class, 'show'])
+    ->name('user.show');
 Route::post('user/store', [\App\Http\Controllers\AuthController::class, 'store'])
     ->name('user.store');
 Route::get('user/login', [\App\Http\Controllers\AuthController::class, 'login'])

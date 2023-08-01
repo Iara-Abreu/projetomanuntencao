@@ -44,6 +44,12 @@ class AuthController extends Controller
         return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário.');
     }
 
+    public function show()
+    {
+        $v['user'] = $this->user->find(Auth::id());
+        return view('user.show', $v);
+    }
+
     public function login()
     {
         $v['title'] = 'Login';

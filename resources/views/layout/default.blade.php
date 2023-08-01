@@ -37,7 +37,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto"> <!-- Use ms-auto instead of ml-auto -->
+                <div class="navbar-nav ms-auto">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="#">Sobre</a>
                     @guest
@@ -58,7 +58,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orgaoDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('user.show')}}">
                                 <span class="icon-container">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                  class="bi bi-person text-black" viewBox="0 0 16 16">

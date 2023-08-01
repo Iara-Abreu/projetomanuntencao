@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('url_imagem')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('id_perfil');
             $table->rememberToken();
             $table->timestamps();
-
-
             $table->foreign('id_perfil')->references('id_perfil')
                 ->on('perfis');
         });
