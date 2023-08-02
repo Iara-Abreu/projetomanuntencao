@@ -4,10 +4,10 @@
 
     <div class="box-body text-center">
         <div class="row">
-{{--            <div class="col col-md-6">--}}
-{{--                <img src={{asset('img/mapalocal.png')}}--}}
-{{--                         width="700" height="650" style="border: 5px solid #ccc; border-radius: 15px;">--}}
-{{--            </div>--}}
+            <div class="col col-md-6">
+                <img src={{asset('img/mapalocal.png')}}
+                         width="700" height="650" style="border: 5px solid #ccc; border-radius: 15px;">
+            </div>
             <div class="col-md-6 text-right">
                 <h2>Com o Help PVH, você faz a diferença: junte-se a nós e transforme a cidade em um lugar melhor!</h2>
                 <br>

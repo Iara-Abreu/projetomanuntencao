@@ -54,6 +54,8 @@
             <div class="form-group">
                 {{ Form::select('id_perfil', $perfis, $id_perfil ?? null, ['autofocus']) }}
             </div>
+            <br>
+            <a href="{{route('user.login')}}">Ja sou cadastrado</a>
 
         </div>
         <div class="box-footer mb-2 text-end">
