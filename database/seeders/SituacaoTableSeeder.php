@@ -14,8 +14,8 @@ class SituacaoTableSeeder extends Seeder
     public function run(): void
     {
         $situacao = [
-            'pendente',
-            'aguardando validação'
+            'abertas',
+            'concluídas'
         ];
         foreach ($situacao as $situ) {
             Situacao::create([
