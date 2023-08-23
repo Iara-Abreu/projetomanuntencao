@@ -11,6 +11,12 @@
 
     <!-- Seus outros arquivos CSS -->
 
+    <!-- Estilo para a cor de fundo da página -->
+    <style>
+        body {
+            background-color: #B0E0E6; /* Substitua pela cor que você deseja usar */
+        }
+    </style>
 
     <!-- Scripts JS do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -76,7 +82,6 @@
             </div>
         </div>
     </nav>
-
 </header>
 
 <div class="container col-md-6">
