@@ -34,7 +34,7 @@
 </head>
 <body>
 <header class="mb-3">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #48d1cc;">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #48d1cc;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">HELP PVH</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

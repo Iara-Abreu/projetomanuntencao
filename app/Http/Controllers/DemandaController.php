@@ -20,15 +20,19 @@ class DemandaController extends Controller
 
     public function index()
     {
+        $v['title'] = 'Feed';
+        $v['demanda'] = $this->demanda->get();
+        $v['base64Images'] = $this->indexBase64Image($v['demanda']);
+        return response()->view('demanda.index', $v);
     }
 
-    private function indexBase64Image($artistas)
+    private function indexBase64Image($demanda)
     {
         $base64Images = [];
 
-        foreach ($artistas as $artista) {
-            $base64 = $artista->imagem;
-            $base64Images[$artista->id_artista] = $base64;
+        foreach ($demanda as $dem) {
+            $base64 = $dem->url_imagem;
+            $base64Images[$dem->id_demanda] = $base64;
         }
 
         return $base64Images;
