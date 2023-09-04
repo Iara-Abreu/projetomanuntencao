@@ -8,6 +8,9 @@ Route::get('/', function () {
     return view('inicio');
 });
 
+Route::view('/sobre', 'sobre.index')->name('sobre.index');
+
+
 Route::get('demanda', [\App\Http\Controllers\DemandaController::class, 'index'])
     ->name('demanda.index');
 Route::get('demanda/{id_demanda}/edit', [\App\Http\Controllers\DemandaController::class, 'edit'])
@@ -76,3 +79,5 @@ Route::post('/trocar-senha/{id}', [\App\Http\Controllers\AuthController::class, 
 Route::get('enviar-email', [\App\Http\Controllers\AuthController::class, 'enviarEmailForm'])->name('user.enviar_email');
 
 Route::post('enviar-email', [\App\Http\Controllers\AuthController::class, 'enviarEmail'])->name('user.store_email');
+
+
