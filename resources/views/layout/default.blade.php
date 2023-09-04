@@ -11,6 +11,12 @@
 
     <!-- Seus outros arquivos CSS -->
 
+    <!-- Estilo para a cor de fundo da página -->
+    <style>
+        body {
+            background-color: #B0E0E6; /* Substitua pela cor que você deseja usar */
+        }
+    </style>
 
     <!-- Scripts JS do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -28,7 +34,7 @@
 </head>
 <body>
 <header class="mb-3">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #48d1cc;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">HELP PVH</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -76,7 +82,6 @@
             </div>
         </div>
     </nav>
-
 </header>
 
 <div class="container col-md-6">
