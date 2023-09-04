@@ -44,8 +44,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto"> <!-- Use ms-auto instead of ml-auto -->
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="#">Sobre</a>
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="{{ route('sobre.index') }}">Sobre</a>
                     @guest
                         <a class="nav-link" href="{{ route('user.create', ['id_perfil' => 'Cidadão']) }}">Sou
                             cidadão</a>
