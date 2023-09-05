@@ -19,6 +19,8 @@ Route::get('demanda/create', [\App\Http\Controllers\DemandaController::class, 'c
     ->name('demanda.create');
 Route::post('demanda/store', [\App\Http\Controllers\DemandaController::class, 'store'])
     ->name('demanda.store');
+    Route::post('demanda/{id_demanda}/show', [\App\Http\Controllers\DemandaController::class, 'show'])
+    ->name('demanda.show');
 Route::patch('demanda/{id_demanda}/update', [\App\Http\Controllers\DemandaController::class, 'update'])
     ->name('demanda.update');
 Route::get('/upload-image', [DemandaController::class, 'uploadImage'])
