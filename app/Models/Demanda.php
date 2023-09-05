@@ -10,4 +10,6 @@ class Demanda extends Model
     protected $table = 'demandas';
 
     protected $primaryKey = 'id_demanda';
+
+    public
 }
