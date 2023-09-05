@@ -41,7 +41,7 @@
                 <div class="col-md-6 gedf-main">
 
                     @foreach ($demanda as $dem)
-                        <div class="mt-3 pb-5">
+                        <div class="mt-3 pb-3">
                             <div class="card gedf-card style="max-width: 100%;">
                                 <div class="card-header">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -67,6 +67,7 @@
                                         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
                                     </div>
                                 </div>
+                                <br>
                     @endforeach
                 </div>
             @endsection
