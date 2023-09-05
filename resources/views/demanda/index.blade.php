@@ -1,5 +1,4 @@
 @extends('layout.default')
-
 @section('main')
 <div class="container mt-2 pb-5 ">
     <div class="container-fluid mt-2 ml-3 mr-3">
@@ -48,16 +47,17 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-2">
-                                        <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                        <img class="rounded-circle" width="45" src="{{$dem->user->url_imagem}}" alt="">
                                     </div>
                                     <div class="ml-2">
-                                        <div class="h5 m-0">{{ $dem->user->name }}</div>
-                                        <div class="h7 text-muted">{{ $dem->bairro->ds_bairro }}</div>
+                                        <div class="h5 m-0">{{ $dem->user->username }}</div>
+                                        <div class="h7 text-muted">{{ $dem->bairro->name }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                                <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>
+                                {{$dem->time()}}
                                 <p class="card-text">
                                     {{$dem->ds_demanda}}
                                 </p>

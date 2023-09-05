@@ -111,6 +111,5 @@ class DemandaController extends Controller
             ]);
         }
 
-        return response()->json(['error' => 'Nenhuma imagem foi enviada.']);
     }
 }

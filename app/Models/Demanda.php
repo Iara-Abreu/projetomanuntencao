@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
+
 
 class Demanda extends Model
 {
@@ -19,5 +21,13 @@ class Demanda extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_usuario');
+    }
+    public function time()
+    {
+        $now = Carbon::now();
+        $createdAt = Carbon::parse($this->created_at);
+        $diff = $now->diffForHumans($createdAt);
+
+        return $diff;
     }
 }
