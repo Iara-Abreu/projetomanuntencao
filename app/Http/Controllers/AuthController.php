@@ -30,9 +30,11 @@ class AuthController extends Controller
     {
         try {
             $user = $this->user->newInstance();
+            $user->username = $req->input('username');
             $user->name = $req->input('name');
             $user->email = $req->input('email');
             $user->password = Hash::make($req->input('password'));
+            $user->url_imagem = $this->getBase64Image($req->file('imagem'));
             $user->id_perfil = $req->input('id_perfil');
             if ($user->save()) {
                 return redirect()->route('user.login')
@@ -42,6 +44,13 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $ex->getMessage());
         }
         return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o usuário.');
+    }
+
+    private function getBase64Image($imageFile)
+    {
+        $mimeType = $imageFile->getMimeType();
+        $base64 = 'data:' . $mimeType . ';base64,' . base64_encode($imageFile->getContent());
+        return $base64;
     }
 
     public function login()
