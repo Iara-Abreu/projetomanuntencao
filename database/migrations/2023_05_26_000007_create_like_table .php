@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->bigIncrements( 'id_like');
-            $table->string('like')->unique();
+            $table->string('like');
             $table->unsignedBigInteger('id_demanda');
-            $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_usuario')->unique();
             $table->timestamps();
             $table->foreign('id_usuario')->references('id')
                 ->on('users');
