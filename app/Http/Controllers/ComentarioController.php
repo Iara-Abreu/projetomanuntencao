@@ -18,17 +18,6 @@ class DemandaController extends Controller
     ) {
     }
 
-    public function create()
-    {
-        $v['title'] = 'Criar Demanda';
-        $v['bairros'] = $this->bairro->selectList();
-        $v['bairrosMapa'] = $this->bairro->selectListMapa();
-
-        $v['tipoDemandas'] = $this->tipoDemanda->selectList();
-
-        return response()->view('demanda.create', $v);
-    }
-
     public function store(Request $request)
     {
         try {

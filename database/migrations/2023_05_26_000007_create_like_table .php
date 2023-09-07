@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->bigIncrements( 'id_like');
-            $table->string('like');
+            $table->string('like')->unique();
             $table->unsignedBigInteger('id_demanda');
             $table->unsignedBigInteger('id_usuario');
             $table->timestamps();
