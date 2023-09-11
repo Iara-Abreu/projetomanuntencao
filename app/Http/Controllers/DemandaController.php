@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bairro;
 use App\Models\Demanda;
 use App\Models\TipoDemanda;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,8 @@ class DemandaController extends Controller
     public function __construct(
         private Bairro $bairro,
         private Demanda $demanda,
-        private TipoDemanda $tipoDemanda
+        private TipoDemanda $tipoDemanda,
+        private Like $like
     ) {
     }
 
@@ -61,6 +63,8 @@ class DemandaController extends Controller
             $demanda->id_bairro = $request->input('id_bairro');
             $demanda->id_tipo_demanda = $request->input('tipoDemanda');
             $demanda->id_situacao = 1;
+
+            $demanda->save();
 
             if ($demanda->save()) {
                 return redirect()->route('demanda.create')->with('success', 'Demanda registrada com sucesso!');
@@ -110,6 +114,5 @@ class DemandaController extends Controller
                 'image_url' => Storage::disk('public')->url($path),
             ]);
         }
-
     }
 }

@@ -61,7 +61,21 @@
                         <img src="{{ $dem->url_imagem }}" class="card-img-top" alt="" width="200" height="400">
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                         
+
+                        {!! Form::open([
+                        'class' => 'form-horizontal',
+                        'method' => 'POST',
+                        'route' => 'like.store',
+                        'enctype' => 'multipart/form-data',
+                        ]) !!}
+
+                        <a href="#" class="card-link"><i class="fa fa-gittip"></i>
+                            {{ Form::hidden('id_demanda', $dem->id_demanda) }}
+                            {{ Form::submit('Like', ['class' => 'btn btn-primary', 'type' => 'submit']) }}
+                        </a>
+
+
                         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
                     </div>
 

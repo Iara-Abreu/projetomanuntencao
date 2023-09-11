@@ -26,7 +26,8 @@ Route::patch('demanda/{id_demanda}/update', [\App\Http\Controllers\DemandaContro
 Route::get('/upload-image', [DemandaController::class, 'uploadImage'])
     ->name('uploadImage');
 
-
+Route::post('like/store', [\App\Http\Controllers\LikeController::class, 'store'])
+    ->name('like.store');
 Route::get('tipo_demanda', [\App\Http\Controllers\TipoDemandaController::class, 'index'])
     ->name('tipo_demanda.index');
 Route::get('tipo_demanda/{id_tipo_demanda}/edit', [\App\Http\Controllers\TipoDemandaController::class, 'edit'])
