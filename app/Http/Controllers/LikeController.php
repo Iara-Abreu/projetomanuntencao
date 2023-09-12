@@ -21,7 +21,7 @@ class LikeController extends Controller
             $like->save();
 
             if ($like->save()) {
-                return redirect()->route('like.create')->with('success', 'like registrada com sucesso!');
+                return redirect()->back()->with('success', 'like registrada com sucesso!');
             }
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar a like: ' . $ex->getMessage());

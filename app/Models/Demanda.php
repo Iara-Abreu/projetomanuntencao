@@ -18,6 +18,9 @@ class Demanda extends Model
     {
         return $this->belongsTo(Bairro::class, 'id_bairro');
     }
+    public function like() {
+        return $this->HasMany(Like::class,'id_like');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'id_usuario');
@@ -30,4 +33,6 @@ class Demanda extends Model
 
         return $diff;
     }
+
+
 }
