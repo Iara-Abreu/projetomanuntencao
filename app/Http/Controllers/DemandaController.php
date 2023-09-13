@@ -115,4 +115,25 @@ class DemandaController extends Controller
             ]);
         }
     }
+
+    public function like($id)
+{
+    $demanda = Demanda::find($id);
+
+    if (!$demanda) {
+        return redirect()->back()->with('error', 'demanda não encontrado.');
+    }
+
+    if ($demanda->like()->where('id_usuario', auth()->id())->exists()) {
+        return redirect()->back();
+    }
+
+    // Crie um novo like
+    $like = new Like();
+    $like->user_id = auth()->id();
+    $demanda->likes()->save($like);
+
+    return redirect()->back()->with('success', 'Você deu like no demanda com sucesso.');
+}
+
 }

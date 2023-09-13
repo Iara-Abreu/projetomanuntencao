@@ -14,7 +14,7 @@ class LikeController extends Controller
         try {
             $like = new Like();
 
-            $like->like = "S";
+            $like->like = $request->input('like');
             $like->id_demanda = $request->input('id_demanda');
             $like->id_usuario = Auth::id();
 

@@ -11,4 +11,8 @@ class Like extends Model
 
     protected $table = 'likes';
     protected $primaryKey = 'id_like';
+
+    public function demanda() {
+        return $this->belongsTo(Demanda::class,'id_demanda');
+    }
 }

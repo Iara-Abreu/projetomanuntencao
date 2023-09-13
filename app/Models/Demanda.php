@@ -21,6 +21,11 @@ class Demanda extends Model
     public function like() {
         return $this->HasMany(Like::class,'id_like');
     }
+    public function likeCount()
+{
+    return $this->likes->count();
+}
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_usuario');

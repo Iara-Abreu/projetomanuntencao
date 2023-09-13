@@ -23,6 +23,8 @@ Route::post('demanda/store', [\App\Http\Controllers\DemandaController::class, 's
     ->name('demanda.show');
 Route::patch('demanda/{id_demanda}/update', [\App\Http\Controllers\DemandaController::class, 'update'])
     ->name('demanda.update');
+    Route::post('demanda/{id}/like', [\App\Http\Controllers\DemandaController::class, 'like'])->name('demanda.like');
+
 Route::get('/upload-image', [DemandaController::class, 'uploadImage'])
     ->name('uploadImage');
 
