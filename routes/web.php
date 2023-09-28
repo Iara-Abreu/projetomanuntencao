@@ -30,6 +30,13 @@ Route::get('/upload-image', [DemandaController::class, 'uploadImage'])
 
 Route::post('like/store', [\App\Http\Controllers\LikeController::class, 'store'])
     ->name('like.store');
+
+
+
+Route::post('like/{id_demanda}/show', [\App\Http\Controllers\LikeController::class, 'show'])
+    ->name('like.show');
+
+
 Route::get('tipo_demanda', [\App\Http\Controllers\TipoDemandaController::class, 'index'])
     ->name('tipo_demanda.index');
 Route::get('tipo_demanda/{id_tipo_demanda}/edit', [\App\Http\Controllers\TipoDemandaController::class, 'edit'])

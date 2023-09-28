@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            @foreach ($demanda as $dem)
+        @foreach ($demanda as $dem)
             <div class="mt-3 pb-3">
                 <div class="card">
                     <div class="card-header">
@@ -61,23 +61,10 @@
                         <img src="{{ $dem->url_imagem }}" class="card-img-top" alt="" width="200" height="400">
                     </div>
                     <div class="card-footer">
-                        @if (auth()->check())
-                        @if (!$dem->like->contains('user_id', auth()->id()))
-                        {!! Form::open(['route' => ['demanda.like', $dem->id_demanda], 'method' => 'post']) !!}
-                        {{ csrf_field() }}
-                        {!! Form::button('Like', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-                        {!! Form::close() !!}
-                        @else
-                        <p>Like on</p>
-                        @endif
-                        @else
-                        Faça login para dar like nesta demanda.
-                        @endif
+                        
                     </div>
-
-
                 </div>
             </div>
-            @endforeach
+        @endforeach
         </div>
-        @endsection
+    @endsection

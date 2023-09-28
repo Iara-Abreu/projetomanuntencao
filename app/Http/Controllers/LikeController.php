@@ -9,6 +9,10 @@ use App\Models\Like;
 
 class LikeController extends Controller
 {
+    public function __construct(
+        private Like $like
+    ) {
+    }
     public function store(Request $request)
     {
         try {
@@ -26,5 +30,13 @@ class LikeController extends Controller
         }
 
         return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar a like.');
+    }
+
+    public function show($id_demanda) {
+
+        $v['like'] = $this->like->where('id_demanda', $id_demanda)->get();
+
+        return response()->view('like.show', $v);
+
     }
 }

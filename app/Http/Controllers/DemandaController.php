@@ -81,8 +81,6 @@ class DemandaController extends Controller
         return $base64;
     }
 
-
-
     public function show()
     {
     }
